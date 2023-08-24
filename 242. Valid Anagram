@@ -1,0 +1,45 @@
+// https://leetcode.com/problems/valid-anagram/description/
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+Example 1:
+Input: s = "anagram", t = "nagaram"
+Output: true
+
+Example 2:
+Input: s = "rat", t = "car"
+Output: false
+
+// solution without method of Arrays.sort()
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        HashMap<Character, Integer> num = new HashMap<>();
+        for (char i : s.toCharArray()) {
+            if (!num.containsKey(i)) {
+                num.put(i, 1);
+            } else {
+                num.replace(i, num.get(i) + 1);
+            }
+        }
+        while (num.size() > 0) {
+            for (char j : t.toCharArray()) {
+                if (!num.containsKey(j)) {
+                    return false;
+                }
+                Integer count = num.get(j);
+                if (count == 1) {
+                    num.remove(j);
+                } else {
+                    num.replace(j, num.get(j) - 1);
+                }
+            }
+
+        }
+        return true;
+    }
+}
