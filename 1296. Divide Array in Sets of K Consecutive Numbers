@@ -1,0 +1,32 @@
+// https://leetcode.com/problems/divide-array-in-sets-of-k-consecutive-numbers/description/
+
+class Solution {
+    public boolean isPossibleDivide(int[] nums, int k) {
+        if (nums.length % k != 0) {
+            return false;
+        }
+        TreeMap<Integer, Integer> numsTree = new TreeMap<>();
+        for (int num : nums) {
+            if (!numsTree.containsKey(num)) {
+                numsTree.put(num, 1);
+            } else {
+                numsTree.replace(num, numsTree.get(num) + 1);
+            }
+        }
+        while (numsTree.size() > 0) {
+             int number = numsTree.firstKey();
+            for (int i = number; i < number + k; i++) {
+                if (!numsTree.containsKey(i)) {
+                    return false;
+                } 
+                int count = numsTree.get(i);
+                if (count == 1) {
+                    numsTree.remove(i);
+                } else {
+                    numsTree.replace(i, count - 1);
+                }
+            }
+        }
+        return true;
+    }
+}
